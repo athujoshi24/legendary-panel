@@ -90,3 +90,41 @@ class Ingredient(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Recipe(models.Model):
+    """Recipe object"""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    title = models.CharField(
+        max_length=255,
+        verbose_name='Recipe Title',
+        help_text='Title of the recipe',
+    )
+    rcpCreatedOn = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Recipe Created on',
+        help_text='Date and Time when the recipe was created.',
+    )
+    type = models.CharField(
+        max_length=255,
+        choices=[
+            ('VEG', 'VEG'),
+            ('NON-VEG', 'NON-VEG'),
+        ],
+        verbose_name='VEG/NON-VEG',
+        help_text='Is the recipe Veg or Non-Veg',
+    )
+    ingredients = models.ManyToManyField('Ingredient')
+    cookingInstruction = models.CharField(
+        max_length=3000,
+        blank=True,
+        verbose_name='Ingredients',
+        help_text='Ingredients',
+    )
+    tags = models.ManyToManyField('Tag')
+
+    def __str__(self):
+        return self.title

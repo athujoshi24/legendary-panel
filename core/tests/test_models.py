@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 from core import models
 
@@ -65,3 +66,14 @@ class ModelTests(TestCase):
         )
 
         self.assertEqual(str(ingredient), ingredient.name)
+
+    def test_recipe_str(self):
+        """Test the recipe string representation"""
+        recipe = models.Recipe.objects.create(
+            user=sample_user(),
+            title='Chicken Tikka',
+            type='VEG',
+            # cookingInstructions=''
+        )
+
+        self.assertEqual(str(recipe), recipe.title)
