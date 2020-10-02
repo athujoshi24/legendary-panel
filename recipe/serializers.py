@@ -23,12 +23,14 @@ class IngredientSerializer(serializers.ModelSerializer):
 
 class RecipeSerializer(serializers.ModelSerializer):
     """Serializer for Recipe"""
-    ingredients = serializers.PrimaryKeyRelatedField(
+    ingredients = serializers.SlugRelatedField(
         many=True,
+        slug_field='name',
         queryset=Ingredient.objects.all()
     )
-    tags = serializers.PrimaryKeyRelatedField(
+    tags = serializers.SlugRelatedField(
         many=True,
+        slug_field='name',
         queryset=Tag.objects.all()
     )
 
@@ -40,6 +42,13 @@ class RecipeSerializer(serializers.ModelSerializer):
             'rcpCreatedOn', 'cookingInstruction'
         )
         read_only_fields = ('id',)
+
+    # def create(self, validated_data):
+    #     tags_data = validated_data.pop('tags')
+    #     for tag in tags_data:
+    #         Tag.objects.create(recipe=recipe, **tag)
+    #     recipe = Recipe.objects.create(**validated_data)
+        # return recipe
 
 
 class RecipeDetailSerializer(RecipeSerializer):

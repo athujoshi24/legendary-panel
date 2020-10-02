@@ -16,9 +16,14 @@ class BaseRecipeAttrViewset(
     authentication_classes = (TokenAuthentication, BasicAuthentication)
     permission_classes = (IsAuthenticated,)
 
+    """
+    Uncomment the following lines if you wish to want the user to be able to see tags and ingredients
+    that hee created and hide other user's content
+    """
     def get_queryset(self):
         """Retrun object for current authenticated user only"""
-        return self.queryset.filter(user=self.request.user).order_by('-name')
+        # return self.queryset.filter(user=self.request.user).order_by('-name')
+        return self.queryset.filter(user=self.request.user).order_by('id')
 
     def perform_create(self, serializer):
         """Create a new recipe object"""
@@ -44,13 +49,31 @@ class RecipeViewset(viewsets.ModelViewSet):
     authentication_classes = (BasicAuthentication, TokenAuthentication,)
     permission_classes = (IsAuthenticated,)
 
+    def _params_to_ints(self, qs):
+        """Convert a list of string IDs to a list of integers"""
+        return [str(str_name) for str_name in qs.split(',')]
+
+    """
+    Comment following lines of code to be able to see all available recipes in the app.
+    """
     def get_queryset(self):
         """Retrieve the recipes for the authenticated user"""
-        return self.queryset.filter(user=self.request.user)
+        tags = self.request.query_params.get('tags')
+        ingredients = self.request.query_params.get('ingredients')
+        queryset = self.queryset
+        if tags:
+            tag_ids = self._params_to_ints(tags)
+            queryset = queryset.filter(tags__name__in=tag_ids)
+        if ingredients:
+            ingredient_ids = self._params_to_ints(ingredients)
+            queryset = queryset.filter(ingredients__name__in=ingredient_ids)
+
+        # return self.queryset.filter(user=self.request.user)
+        return queryset.filter(user=self.request.user)
 
     def get_serializer_class(self):
         """Return a appropriate serializer class"""
-        if self.action == 'retrieve' :
+        if self.action == 'retrieve':
             return serializers.RecipeDetailSerializer
         return self.serializer_class
 
