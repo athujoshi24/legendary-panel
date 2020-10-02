@@ -121,8 +121,8 @@ class Recipe(models.Model):
     cookingInstruction = models.CharField(
         max_length=3000,
         blank=True,
-        verbose_name='Ingredients',
-        help_text='Ingredients',
+        verbose_name='Cooking Instructions',
+        help_text='Cooking Instructions',
     )
     tags = models.ManyToManyField('Tag')
 
