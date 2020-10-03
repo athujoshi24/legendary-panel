@@ -8,12 +8,13 @@ from core.models import Tag, Ingredient, Recipe
 
 
 class BaseRecipeAttrViewset(
-    viewsets.GenericViewSet,
-    mixins.ListModelMixin,
-    mixins.CreateModelMixin
+    # viewsets.GenericViewSet,
+    # mixins.ListModelMixin,
+    # mixins.CreateModelMixin,
+    viewsets.ModelViewSet
 ):
     """Base viewset for user owned recipe attribute"""
-    authentication_classes = (TokenAuthentication, BasicAuthentication)
+    authentication_classes = (BasicAuthentication, TokenAuthentication, )
     permission_classes = (IsAuthenticated,)
 
     """
@@ -21,7 +22,7 @@ class BaseRecipeAttrViewset(
     that hee created and hide other user's content
     """
     def get_queryset(self):
-        """Retrun object for current authenticated user only"""
+        """Return object for current authenticated user only"""
         # return self.queryset.filter(user=self.request.user).order_by('-name')
         return self.queryset.filter(user=self.request.user).order_by('id')
 
@@ -62,11 +63,11 @@ class RecipeViewset(viewsets.ModelViewSet):
         ingredients = self.request.query_params.get('ingredients')
         queryset = self.queryset
         if tags:
-            tag_ids = self._params_to_ints(tags)
-            queryset = queryset.filter(tags__name__in=tag_ids)
+            tag_names = self._params_to_ints(tags)
+            queryset = queryset.filter(tags__name__in=tag_names)
         if ingredients:
-            ingredient_ids = self._params_to_ints(ingredients)
-            queryset = queryset.filter(ingredients__name__in=ingredient_ids)
+            ingredient_names = self._params_to_ints(ingredients)
+            queryset = queryset.filter(ingredients__name__in=ingredient_names)
 
         # return self.queryset.filter(user=self.request.user)
         return queryset.filter(user=self.request.user)
