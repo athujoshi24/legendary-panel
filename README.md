@@ -1,13 +1,14 @@
 # Recipe App using Django
 
-## About this app:
+## About this app
+
 - This application is developed using Django and DjangoRestFramework.
 - We have used out of the box authentication functionality offer by Django (Token authentication and Basic Authentication).
-- 
 
-## Quickstart guide:
+## Quickstart guide
 
-### Setup the application in your System:
+### Setup the application in your System
+
 Before starting with the following steps, install [python 3](https://www.python.org/ftp/python/3.8.5/python-3.8.5.exe) on your system.
 
     1. RUN "pip install -r requirements.txt"
@@ -22,3 +23,6 @@ Before starting with the following steps, install [python 3](https://www.python.
     8. Create Ingredients for recipes by going to following link: "http://localhost:8080/api/recipe/ingredient/"
     9. No visit "http://localhost:8080/api/recipe/recipe/" to create recipes
 
+## API Documentation
+
+You can find API documentation [here](http://localhost:8000/).
