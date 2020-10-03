@@ -16,14 +16,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls import url, include
-from rest_framework.routers import DefaultRouter
 from rest_framework.documentation import include_docs_urls
 
 
 urlpatterns = [
-    # url(r'^documentation/', schema_view, name='Documentation'),
-    url(r'', include_docs_urls(title='Documentation')),
+    url(
+        r'',
+        include_docs_urls(
+            title='Documentation',
+            description='API Documeentation',
+        )
+    ),
     path('admin/', admin.site.urls),
     path('api/user/', include('user.urls')),
-    path('api/recipe/', include('recipe.urls'))
+    path('api/recipe/', include('recipe.urls')),
 ]
