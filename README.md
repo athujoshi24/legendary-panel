@@ -22,3 +22,5 @@ Before starting with the following steps, install [python 3](https://www.python.
     8. Create Ingredients for recipes by going to following link: "http://localhost:8080/api/recipe/ingredient/"
     9. No visit "http://localhost:8080/api/recipe/recipe/" to create recipes
 
+# API Documentation
+You can find API documentation [here](http://localhost:8000/).
